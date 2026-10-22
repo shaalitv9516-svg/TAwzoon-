@@ -355,19 +355,31 @@ export const Navbar: React.FC = () => {
               />
             </div>
 
-            {/* 2B. MOBILE ONLY: Touch Pill that expands into full search bar */}
-            <div className="sm:hidden flex-1 min-w-0 max-w-[135px] xs:max-w-[165px] mx-1">
-              <div
+            {/* 2B. MOBILE ONLY: Dedicated Search Icon for Reseller Header; Original Pill for Public Header */}
+            {isEmployeeAuthenticated && activePortal !== 'admin' ? (
+              <button
+                type="button"
                 onClick={() => setIsSearchExpanded(true)}
-                className="w-full flex items-center gap-1.5 bg-[#edf2f6] dark:bg-slate-800 hover:bg-[#e4ebf0] dark:hover:bg-slate-700 rounded-full px-3 py-1.5 transition-all duration-200 cursor-pointer shadow-2xs hover:shadow-xs active:scale-95 group border border-slate-200/40 dark:border-slate-700/50"
+                className="sm:hidden w-8 h-8 rounded-full bg-[#edf2f6] dark:bg-slate-800 hover:bg-[#e4ebf0] dark:hover:bg-slate-700 flex items-center justify-center shrink-0 transition-all duration-200 cursor-pointer shadow-2xs border border-slate-200/60 dark:border-slate-700/60 active:scale-95"
                 title={lang === 'bn' ? 'সার্চ করতে চাপুন' : 'Tap to search'}
+                aria-label={lang === 'bn' ? 'সার্চ' : 'Search'}
               >
-                <Search className="w-5 h-5 text-slate-700 dark:text-slate-200 group-hover:text-[#009245] transition-colors shrink-0" />
-                <span className="text-[11px] font-medium text-slate-500 dark:text-slate-400 truncate">
-                  {publicSearch ? publicSearch : (lang === 'bn' ? 'পণ্য খুঁজুন...' : 'Search products...')}
-                </span>
+                <Search className="w-4.5 h-4.5 text-slate-700 dark:text-slate-200 hover:text-[#009245] transition-colors" />
+              </button>
+            ) : (
+              <div className="sm:hidden flex-1 min-w-0 max-w-[135px] xs:max-w-[165px] mx-1">
+                <div
+                  onClick={() => setIsSearchExpanded(true)}
+                  className="w-full flex items-center gap-1.5 bg-[#edf2f6] dark:bg-slate-800 hover:bg-[#e4ebf0] dark:hover:bg-slate-700 rounded-full px-3 py-1.5 transition-all duration-200 cursor-pointer shadow-2xs hover:shadow-xs active:scale-95 group border border-slate-200/40 dark:border-slate-700/50"
+                  title={lang === 'bn' ? 'সার্চ করতে চাপুন' : 'Tap to search'}
+                >
+                  <Search className="w-3.5 h-3.5 text-slate-400 group-hover:text-[#009245] transition-colors shrink-0" />
+                  <span className="text-[11px] font-medium text-slate-500 dark:text-slate-400 truncate">
+                    {publicSearch ? publicSearch : (lang === 'bn' ? 'পণ্য খুঁজুন...' : 'Search products...')}
+                  </span>
+                </div>
               </div>
-            </div>
+            )}
 
             {/* 2C. DESKTOP HEADER NAVIGATION (PC & Desktop only - Slightly larger, professional, crisp opacity) */}
             {activePortal !== 'admin' && (
@@ -483,9 +495,9 @@ export const Navbar: React.FC = () => {
                 >
                   <Bell className="w-5 h-5 sm:w-5.5 sm:h-5.5" />
                   
-                  {/* Dynamic Unread Notification Badge ("3") with Professional Opacity Pulse Animation */}
+                  {/* Dynamic Unread Notification Badge with Professional Scale & Multi-digit support */}
                   {unreadCount > 0 && (
-                    <span className="absolute -top-1 -right-1 min-w-[18px] h-4.5 px-1 rounded-full bg-[#e31b23] text-white text-[10px] font-black flex items-center justify-center shadow-sm border border-white dark:border-slate-900 leading-none animate-badge-pulse">
+                    <span className="absolute -top-0.5 -right-0.5 min-w-[15px] h-[15px] px-1 rounded-full bg-[#e31b23] text-white text-[9px] font-bold flex items-center justify-center shadow-xs border-[1.5px] border-white dark:border-slate-900 leading-none animate-badge-pulse">
                       {unreadCount > 99 ? '99+' : unreadCount}
                     </span>
                   )}
